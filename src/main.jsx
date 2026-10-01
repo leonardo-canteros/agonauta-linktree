@@ -49,7 +49,6 @@ function App() {
       <a className="skip-link" href="#contenido">Saltar al contenido</a>
       <header className="site-header">
         <a className="identity" href="#inicio" aria-label="Ir al inicio">
-          <span className="identity-mark" aria-hidden="true"><i /><i /><i /><i /></span>
           <span>Proyectos del equipo</span>
         </a>
         <nav aria-label="Navegación principal">
@@ -86,7 +85,7 @@ function App() {
             </div>
             <article className="featured-card" id="agronautas">
               <div className="featured-copy">
-                <div className="featured-header"><span className="feature-icon" aria-hidden="true">✳</span><span className="status light"><span className="status-dot" />{projects.featured.status}</span></div>
+                <div className="featured-header"><span className="feature-id">AGRO / 01</span><span className="status light"><span className="status-dot" />{projects.featured.status}</span></div>
                 {projects.featured.logo && <img className="featured-logo" src={projects.featured.logo} alt="" />}
                 <p className="feature-category">{projects.featured.category}</p>
                 <h3>{projects.featured.name}</h3>
