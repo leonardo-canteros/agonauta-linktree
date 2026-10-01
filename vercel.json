@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/", "destination": "/proyectos/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/proyectos/", "destination": "/index.html" },
+    { "source": "/proyectos", "destination": "/index.html" }
+  ]
+}
