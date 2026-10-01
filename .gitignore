@@ -3,5 +3,6 @@ dist/
 .vercel/
 .netlify/
 mobile*.png
+captura-*.png
 .env*
 !.env.example

@@ -1,6 +1,6 @@
 # Proyectos del equipo
 
-Sitio de una página para presentar los proyectos de ocho emprendedores. Agronautas es la línea agropecuaria, no el nombre del equipo.
+Directorio de una página para presentar los proyectos de ocho emprendedores. Agronautas es la línea agropecuaria, no el nombre del equipo.
 
 ## Desarrollo
 
@@ -13,7 +13,7 @@ La página se abre en `/proyectos/`. `npm run build` genera `dist/` y una copia 
 
 ## Contenido
 
-Los nombres, descripciones, estados, enlaces y canales oficiales se editan en `src/data.js`. Dejá `links: []` o `contact: []` cuando no haya un destino verificado. Si se incorpora un logo real, guardalo en `public/` y asigná su ruta en el campo `logo` del proyecto.
+Los nombres, descripciones cortas, estados, enlaces y canales oficiales se editan en `src/data.js`. Dejá `links: []` o `contact: []` cuando no haya un destino verificado. El logo original de Agronautas se guarda en `public/` y su ruta se asigna en `site.logo`.
 
 ## Publicación
 
