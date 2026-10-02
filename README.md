@@ -13,7 +13,7 @@ La página se abre en `/proyectos/`. `npm run build` genera `dist/` y una copia 
 
 ## Contenido
 
-Los nombres, descripciones cortas, estados, enlaces y canales oficiales se editan en `src/data.js`. Dejá `links: []` o `contact: []` cuando no haya un destino verificado. El logo original de Agronautas se guarda en `public/` y su ruta se asigna en `site.logo`.
+Los nombres, resúmenes, imágenes, enlaces y canales oficiales se editan en `src/data.js`. Dejá `links: []` o `contact: []` cuando no haya un destino verificado. El logo original de Agronautas se guarda en `public/` y su ruta se asigna en `site.logo`. Las fuentes de las fotografías están en `IMAGE_SOURCES.md`.
 
 ## Publicación
 

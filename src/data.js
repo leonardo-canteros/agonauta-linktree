@@ -1,100 +1,83 @@
-// Editar este archivo para actualizar textos, estados y destinos públicos.
-// Usar solo URLs y canales confirmados por el equipo.
+// Nombres, textos, imágenes y destinos públicos se editan aquí.
+// Solo agregar URLs y canales confirmados por el equipo.
 export const site = {
   title: 'Agronautas y proyectos del equipo',
   introduction:
-    'Somos ocho emprendedores de software y hardware. Creamos soluciones para el campo, los servicios y el cuidado de las personas.',
+    'Somos ocho emprendedores que crean software y hardware para desafíos reales.',
   logo: null,
   contact: [],
 }
 
-export const projects = {
-  featured: {
-    id: 'agronautas',
-    name: 'Agronautas',
-    category: 'Tecnología agropecuaria',
-    status: 'En desarrollo',
+export const projects = [
+  {
+    id: 'agronautas-huertas',
+    name: 'Agronautas · Huertas',
+    shortDescription: 'Monitoreo para Jakaru Porá.',
     description:
-      'Desarrollamos una propuesta de monitoreo para las huertas de Jakaru Porá, con información que ayude a observar su evolución y acompañar las decisiones de quienes las trabajan.',
-    shortDescription: 'Monitoreo de huertas Jakaru Porá.',
-    note: 'Las demostraciones disponibles utilizan datos simulados.',
+      'Proponemos monitorear las huertas de Jakaru Porá para reunir información útil y acompañar las decisiones de quienes las trabajan. El proyecto está en desarrollo.',
+    note: 'Cualquier demostración utiliza datos simulados.',
+    image: '/images/huertas.webp',
+    imageAlt: 'Huerta verde con cultivos y un invernadero',
     links: [],
-    logo: null,
   },
-  agro: [
-    {
-      id: 'monitoreo-ganadero',
-      name: 'Monitoreo ganadero',
-      category: 'Campo conectado',
-      status: 'Iniciativa',
-      description:
-        'Exploramos herramientas para seguir la actividad ganadera y acercar información útil al trabajo de campo.',
-      shortDescription: 'Seguimiento tecnológico del ganado.',
-      links: [],
-      logo: null,
-    },
-    {
-      id: 'cerca-electronica',
-      name: 'Cerca electrónica',
-      category: 'Hardware + software',
-      status: 'Iniciativa',
-      description:
-        'Una línea de desarrollo orientada a aplicar tecnología al manejo de límites y espacios productivos.',
-      shortDescription: 'Tecnología para límites productivos.',
-      links: [],
-      logo: null,
-    },
-  ],
-  other: [
-    {
-      id: 'alki',
-      name: 'ALKI',
-      category: 'Alojamientos',
-      status: 'Proyecto',
-      description: 'Una propuesta digital para conectar alquileres y alojamientos con quienes buscan dónde quedarse.',
-      shortDescription: 'Alquileres y alojamientos.',
-      links: [],
-      logo: null,
-    },
-    {
-      id: 'pia',
-      name: 'Pía',
-      category: 'Turismo + IA',
-      status: 'Proyecto',
-      description: 'Una asistente turística con inteligencia artificial para acompañar la exploración de destinos.',
-      shortDescription: 'Asistente turística con IA.',
-      links: [],
-      logo: null,
-    },
-    {
-      id: 'tus',
-      name: 'TUS',
-      category: 'Conexiones',
-      status: 'Proyecto',
-      description: 'Un espacio para conectar personas con profesionales según lo que necesitan resolver.',
-      shortDescription: 'Personas y profesionales conectados.',
-      links: [],
-      logo: null,
-    },
-    {
-      id: 'medbot',
-      name: 'Medbot',
-      category: 'Salud + tecnología',
-      status: 'Proyecto',
-      description: 'Una iniciativa de medición de signos vitales que combina desarrollo tecnológico y cuidado.',
-      shortDescription: 'Medición de signos vitales.',
-      links: [],
-      logo: null,
-    },
-    {
-      id: 'tilo',
-      name: 'Tilo',
-      category: 'Acompañamiento',
-      status: 'Proyecto',
-      description: 'Un asistente de compañía pensado para acompañar a personas mayores en su vida cotidiana.',
-      shortDescription: 'Compañía para personas mayores.',
-      links: [],
-      logo: null,
-    },
-  ],
-}
+  {
+    id: 'agronautas-ganaderia',
+    name: 'Agronautas · Ganadería',
+    shortDescription: 'Ganado y cerca electrónica.',
+    description:
+      'Exploramos herramientas para el seguimiento del ganado y una cerca electrónica aplicada al manejo de espacios productivos.',
+    image: '/images/ganaderia.webp',
+    imageAlt: 'Dos vacas pastando en un campo verde',
+    links: [],
+  },
+  {
+    id: 'alki',
+    name: 'ALKI',
+    shortDescription: 'Alquileres y alojamientos.',
+    description:
+      'Una propuesta digital para conectar opciones de alquiler y alojamiento con personas que buscan dónde quedarse.',
+    image: '/images/alki.webp',
+    imageAlt: 'Interior de una habitación de alojamiento con sillones y escritorio',
+    links: [],
+  },
+  {
+    id: 'pia',
+    name: 'Pía',
+    shortDescription: 'Turismo con IA.',
+    description:
+      'Una asistente turística con inteligencia artificial pensada para acompañar la exploración de destinos y experiencias.',
+    image: '/images/pia.webp',
+    imageAlt: 'Lago turquesa rodeado de montañas',
+    links: [],
+  },
+  {
+    id: 'tus',
+    name: 'TUS',
+    shortDescription: 'Personas y profesionales.',
+    description:
+      'Un espacio para acercar a las personas con profesionales según el servicio o la solución que necesitan.',
+    image: '/images/tus.webp',
+    imageAlt: 'Profesionales trabajando juntos frente a computadoras',
+    links: [],
+  },
+  {
+    id: 'medbot',
+    name: 'Medbot',
+    shortDescription: 'Signos vitales.',
+    description:
+      'Una iniciativa que combina tecnología y cuidado para explorar la medición de signos vitales.',
+    image: '/images/medbot.webp',
+    imageAlt: 'Toma de presión arterial con un tensiómetro',
+    links: [],
+  },
+  {
+    id: 'software-personalizado',
+    name: 'Desarrollo de software personalizado',
+    shortDescription: 'Software a medida.',
+    description:
+      'Diseñamos soluciones digitales adaptadas a las necesidades de cada cliente o proyecto, desde la idea hasta su implementación.',
+    image: '/images/software.webp',
+    imageAlt: 'Persona trabajando en código en una computadora portátil',
+    links: [],
+  },
+]
