@@ -3,9 +3,18 @@
 export const site = {
   title: 'Agronautas y proyectos del equipo',
   introduction:
-    'Somos ocho emprendedores que crean software y hardware para desafíos reales.',
+    'Somos nueve emprendedores que crean proyectos de software y hardware para desafíos reales.',
   logo: null,
-  contact: [],
+  contact: [
+    {
+      label: 'Llamar · +54 9 379 472-5842',
+      url: 'tel:+5493794725842',
+    },
+    {
+      label: 'WhatsApp · +54 9 379 472-5842',
+      url: 'https://wa.me/5493794725842',
+    },
+  ],
 }
 
 export const projects = [
@@ -23,9 +32,12 @@ export const projects = [
     id: 'jakaru-pora',
     name: 'Jakaru Porá',
     shortDescription: 'Seguimiento de las huertas.',
-    image: '/images/huertas.webp',
-    imageAlt: 'Huerta verde con cultivos y un invernadero',
-    destination: 'https://jakaru-pora-front.vercel.app/#/?section=propuesta',
+    description:
+      'Una propuesta para acompañar el seguimiento de las huertas y observar cómo evolucionan los cultivos.',
+    image: '/images/jakaru-sensor.webp',
+    imageAlt:
+      'Sensor genérico colocado en la tierra junto a plantas de huerta; imagen ilustrativa, no es un prototipo del equipo',
+    links: [{ label: 'Ver proyecto', url: 'https://jakaru-pora-front.vercel.app/#/' }],
   },
   {
     id: 'tus',
@@ -70,15 +82,11 @@ export const projects = [
   {
     id: 'software-hardware',
     name: 'Desarrollo de software y hardware personalizado',
-    shortDescription: 'Robótica a medida.',
+    shortDescription: 'Robótica, software y dispositivos a medida.',
     description:
-      'Diseñamos y desarrollamos soluciones según las necesidades de cada proyecto, incluyendo aplicaciones, sistemas, dispositivos y robótica.',
-    modalTitle: 'Desarrollo de software y hardware a medida',
-    modalInvitation:
-      'Estamos abiertos a escuchar ideas, colaborar y desarrollar nuevos proyectos.',
+      'Diseñamos y desarrollamos soluciones según las necesidades de cada proyecto, incluyendo aplicaciones, sistemas, dispositivos y robótica. Estamos abiertos a escuchar ideas, colaborar y desarrollar nuevos proyectos.',
     image: '/images/software.webp',
     imageAlt: 'Robot educativo armado con componentes electrónicos y sensores',
-    interaction: 'modal',
     links: [],
   },
 ]

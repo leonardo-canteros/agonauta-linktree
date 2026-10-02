@@ -7,6 +7,7 @@ Todas las páginas de origen indican que la foto es gratuita bajo la [licencia d
 | Archivo | Proyecto | Autor y fuente |
 | --- | --- | --- |
 | `huertas.webp` | Agronautas, Jakaru Porá | [Adrien Olichon](https://unsplash.com/photos/a-lush-garden-with-rows-of-vegetables-and-a-greenhouse-VTGSuzQwk4o) |
+| `jakaru-sensor.webp` | Jakaru Porá | Imagen fotográfica generada para ilustrar un sensor genérico en tierra; no representa un prototipo ni una instalación del equipo. |
 | `pia.webp` | Pía | [Phil Hearing](https://unsplash.com/photos/a-woman-speaks-to-a-crowd-on-a-street-MqOMMMs8gCo) |
 | `tus.webp` | TUS | [Toolmash Expo](https://unsplash.com/photos/electrician-testing-electrical-panel-with-multimeter-PkHf7BUWbtk) |
 | `medbot.webp` | Medbot | [CDC](https://unsplash.com/photos/a-doctor-checking-the-blood-pressure-of-a-patient-XdErxxR6Xog) |

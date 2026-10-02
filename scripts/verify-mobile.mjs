@@ -15,7 +15,7 @@ try {
     'Tilo',
     'Desarrollo de software y hardware personalizado',
   ]
-  const jakaruUrl = 'https://jakaru-pora-front.vercel.app/#/?section=propuesta'
+  const jakaruUrl = 'https://jakaru-pora-front.vercel.app/#/'
 
   for (const device of [
     { name: 'celular', width: 390, height: 844, isMobile: true },
@@ -35,58 +35,49 @@ try {
 
     const cards = page.locator('.project-card')
     const names = await page.locator('.project-name').allTextContents()
-    const imagesLoaded = await page.waitForFunction(() =>
-      [...document.querySelectorAll('.thumb img')].every((img) => img.complete && img.naturalWidth > 0),
-    )
-    const jakaruLink = cards.nth(1).locator('.project-direct-link')
-    const directHref = await jakaruLink.getAttribute('href')
-    const [jakaruPage] = await Promise.all([
-      page.waitForEvent('popup'),
-      jakaruLink.click(),
-    ])
-    await jakaruPage.waitForLoadState('domcontentloaded')
-    const directOpened = jakaruPage.url() === jakaruUrl
-    await jakaruPage.close()
-
-    const accordionButton = cards.nth(0).locator('.project-trigger')
-    await accordionButton.click()
-    const accordionOpens = await accordionButton.getAttribute('aria-expanded') === 'true'
-    const cardClickStays = page.url().endsWith('/proyectos/')
-    await accordionButton.click()
-    const accordionCloses = await accordionButton.getAttribute('aria-expanded') === 'false'
-
-    const modalTrigger = cards.nth(6).locator('.project-trigger')
-    await modalTrigger.click()
-    const dialog = page.getByRole('dialog')
-    const modalVisible = await dialog.isVisible()
-    const modalTitle = await page.locator('#project-modal-title').textContent()
-    const closeButton = page.getByRole('button', { name: 'Cerrar' })
-    const closeButtonFocused = await closeButton.evaluate((element) => document.activeElement === element)
-    const modalGeometry = await dialog.evaluate((element) => {
-      const rect = element.getBoundingClientRect()
-      return { width: rect.width, height: rect.height, viewportHeight: window.innerHeight }
+    await page.waitForFunction(() => {
+      const image = document.querySelector('.profile-image')
+      return image?.complete && image.naturalWidth > 0
     })
-    await page.keyboard.press('Escape')
-    const escapeCloses = await page.getByRole('dialog').count() === 0
-    await page.waitForFunction(() => document.activeElement?.closest('.project-card.is-modal') !== null)
-    const focusReturnsAfterEscape = await modalTrigger.evaluate((element) => document.activeElement === element)
-    await modalTrigger.click()
-    await page.getByRole('button', { name: 'Cerrar' }).click()
-    const buttonCloses = await page.getByRole('dialog').count() === 0
-    await page.waitForFunction(() => document.activeElement?.closest('.project-card.is-modal') !== null)
-    const focusReturnsAfterButton = await modalTrigger.evaluate((element) => document.activeElement === element)
+
+    const jakaruButton = cards.nth(1).locator('.project-trigger')
+    await jakaruButton.click()
+    const jakaruExpanded = await jakaruButton.getAttribute('aria-expanded') === 'true'
+    const jakaruDestination = await cards.nth(1).getByRole('link', { name: 'Ver proyecto' }).getAttribute('href')
+    const jakaruAlt = await cards.nth(1).locator('.detail-figure img').getAttribute('alt')
+    const jakaruStayedOnPage = page.url().endsWith('/proyectos/')
+    if (device.name === 'celular') {
+      await page.waitForTimeout(350)
+      await page.screenshot({ path: 'captura-jakaru-celular.png', fullPage: true })
+    }
+
+    const developmentButton = cards.nth(6).locator('.project-trigger')
+    await developmentButton.click()
+    const jakaruCollapsedWhenDevelopmentOpened = await jakaruButton.getAttribute('aria-expanded') === 'false'
+    const developmentExpanded = await developmentButton.getAttribute('aria-expanded') === 'true'
+    const developmentSummary = await cards.nth(6).locator('.detail-description').textContent()
+    const developmentImage = await cards.nth(6).locator('.detail-figure img').getAttribute('src')
+    const developmentHasNoLink = await cards.nth(6).getByRole('link').count() === 0
+
+    await developmentButton.focus()
+    await page.keyboard.press('Space')
+    const keyboardClosesAccordion = await developmentButton.getAttribute('aria-expanded') === 'false'
+    await page.keyboard.press('Enter')
+    const keyboardOpensAccordion = await developmentButton.getAttribute('aria-expanded') === 'true'
 
     for (const img of await page.locator('.thumb img').all()) await img.scrollIntoViewIfNeeded()
+    await page.evaluate(() => window.scrollTo(0, 0))
     const result = await page.evaluate(() => ({
       viewport: window.innerWidth,
       pageWidth: document.documentElement.scrollWidth,
       title: document.querySelector('h1')?.textContent,
       projects: document.querySelectorAll('.project-list > li').length,
       projectNames: [...document.querySelectorAll('.project-name')].map((element) => element.textContent),
-      directLinks: [...document.querySelectorAll('.project-direct-link')].map((a) => a.href),
       detailPanels: document.querySelectorAll('.project-detail').length,
+      contactNumber: document.querySelector('.contact-number')?.textContent,
+      contactLinks: [...document.querySelectorAll('.contact-list a')].map((anchor) => anchor.href),
     }))
-    await page.screenshot({ path: `captura-${device.name}.png`, fullPage: true })
+    await page.screenshot({ path: `captura-${device.name}-actualizada.png`, fullPage: true })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const reducedMotion = await page.locator('.project-detail').first().evaluate((element) => getComputedStyle(element).transitionDuration === '0s')
 
@@ -94,20 +85,17 @@ try {
       device: device.name,
       status: response.status(),
       ...result,
-      imagesLoaded: Boolean(imagesLoaded),
-      directHref,
-      directOpened,
-      accordionOpens,
-      accordionCloses,
-      cardClickStays,
-      modalVisible,
-      modalTitle,
-      closeButtonFocused,
-      modalGeometry,
-      escapeCloses,
-      focusReturnsAfterEscape,
-      buttonCloses,
-      focusReturnsAfterButton,
+      jakaruExpanded,
+      jakaruDestination,
+      jakaruAlt,
+      jakaruStayedOnPage,
+      jakaruCollapsedWhenDevelopmentOpened,
+      developmentExpanded,
+      developmentSummary,
+      developmentImage,
+      developmentHasNoLink,
+      keyboardClosesAccordion,
+      keyboardOpensAccordion,
       reducedMotion,
       errors,
     }, null, 2))
@@ -117,22 +105,21 @@ try {
       && result.projects === 7
       && JSON.stringify(names) === JSON.stringify(expectedNames)
       && result.title === 'Agronautas y proyectos del equipo'
-      && JSON.stringify(result.directLinks) === JSON.stringify([jakaruUrl])
-      && directHref === jakaruUrl
-      && directOpened
-      && result.detailPanels === 5
-      && accordionOpens
-      && accordionCloses
-      && cardClickStays
-      && modalVisible
-      && modalTitle === 'Desarrollo de software y hardware a medida'
-      && closeButtonFocused
-      && modalGeometry.width <= result.viewport
-      && modalGeometry.height <= modalGeometry.viewportHeight
-      && escapeCloses
-      && focusReturnsAfterEscape
-      && buttonCloses
-      && focusReturnsAfterButton
+      && result.detailPanels === 7
+      && result.contactNumber === '+54 9 379 472-5842'
+      && result.contactLinks.includes('tel:+5493794725842')
+      && result.contactLinks.includes('https://wa.me/5493794725842')
+      && jakaruExpanded
+      && jakaruDestination === jakaruUrl
+      && jakaruAlt?.includes('imagen ilustrativa')
+      && jakaruStayedOnPage
+      && jakaruCollapsedWhenDevelopmentOpened
+      && developmentExpanded
+      && developmentSummary?.includes('aplicaciones, sistemas, dispositivos y robótica')
+      && developmentImage === '/images/software.webp'
+      && developmentHasNoLink
+      && keyboardClosesAccordion
+      && keyboardOpensAccordion
       && reducedMotion
       && errors.length === 0
     if (!valid) process.exitCode = 1
