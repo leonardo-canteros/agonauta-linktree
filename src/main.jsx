@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { projects, site } from './data'
 import './styles.css'
 
-function ProjectCard({ project, index, isOpen, onToggle }) {
+function ProjectCard({ project, index, isOpen, onToggle, onOpenModal, modalTriggerRef }) {
   const panelId = `details-${project.id}`
   const projectLink = project.links?.[0]
 
@@ -49,6 +49,17 @@ function ProjectCard({ project, index, isOpen, onToggle }) {
               />
             </figure>
             <p className="detail-description">{project.description}</p>
+            {project.moreDetails && (
+              <button
+                className="project-link more-button"
+                type="button"
+                aria-haspopup="dialog"
+                onClick={onOpenModal}
+                ref={modalTriggerRef}
+              >
+                Ver más <span aria-hidden="true">↗</span>
+              </button>
+            )}
             {projectLink && (
               <a className="project-link" href={projectLink.url} target="_blank" rel="noopener noreferrer">
                 Ver proyecto <span aria-hidden="true">↗</span>
@@ -63,6 +74,50 @@ function ProjectCard({ project, index, isOpen, onToggle }) {
 
 function App() {
   const [openProject, setOpenProject] = useState(null)
+  const [modalProject, setModalProject] = useState(null)
+  const modalRef = useRef(null)
+  const modalCloseRef = useRef(null)
+  const modalTriggerRef = useRef(null)
+
+  function closeModal() {
+    setModalProject(null)
+    window.requestAnimationFrame(() => modalTriggerRef.current?.focus({ preventScroll: true }))
+  }
+
+  useEffect(() => {
+    if (!modalProject) return undefined
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    modalCloseRef.current?.focus()
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        closeModal()
+        return
+      }
+
+      if (event.key === 'Tab' && modalRef.current) {
+        const focusable = [...modalRef.current.querySelectorAll('a[href], button:not([disabled])')]
+        const first = focusable[0]
+        const last = focusable.at(-1)
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last?.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first?.focus()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [modalProject])
 
   return (
     <main className="page">
@@ -74,7 +129,7 @@ function App() {
           <img
             className="profile-image"
             src="/images/software.webp"
-            alt="Robot armado con componentes electrónicos; imagen ilustrativa"
+            alt="Robot armado con componentes electrónicos"
             width="680"
             height="510"
           />
@@ -94,10 +149,66 @@ function App() {
               index={index}
               isOpen={openProject === project.id}
               onToggle={() => setOpenProject(openProject === project.id ? null : project.id)}
+              onOpenModal={() => setModalProject(project)}
+              modalTriggerRef={project.moreDetails ? modalTriggerRef : undefined}
             />
           ))}
         </ul>
       </section>
+
+      {modalProject && (
+        <div
+          className="service-modal-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeModal()
+          }}
+        >
+          <section
+            className="service-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="service-modal-title"
+            ref={modalRef}
+          >
+            <figure className="service-modal-image">
+              <img src={modalProject.image} alt={modalProject.imageAlt} width="680" height="510" />
+            </figure>
+            <div className="service-modal-content">
+              <button
+                className="service-modal-close"
+                type="button"
+                aria-label="Cerrar"
+                onClick={closeModal}
+                ref={modalCloseRef}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+              <p className="section-kicker">Desarrollo a medida</p>
+              <h2 id="service-modal-title">{modalProject.moreDetails.title}</h2>
+              <p className="service-modal-intro">{modalProject.moreDetails.introduction}</p>
+              <ul className="service-modal-list">
+                {modalProject.moreDetails.services.map((service) => (
+                  <li key={service.title}>
+                    <strong>{service.title}:</strong> {service.description}
+                  </li>
+                ))}
+              </ul>
+              <h3>Cómo trabajamos</h3>
+              <p className="service-modal-process">{modalProject.moreDetails.process}</p>
+              <p className="service-modal-invitation">{modalProject.moreDetails.invitation}</p>
+              {site.contact.length > 0 && (
+                <div className="service-modal-contact" aria-label="Canales de contacto">
+                  {site.contact.map((channel) => (
+                    <a className="project-link" href={channel.url} target="_blank" rel="noopener noreferrer" key={channel.url}>
+                      {channel.label} <span aria-hidden="true">↗</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
+      )}
 
       <footer className="contact" aria-labelledby="contact-heading">
         <div className="contact-heading">
@@ -109,21 +220,16 @@ function App() {
           </span>
           <div><p className="section-kicker">¿Tenés una idea?</p><h2 id="contact-heading">Hablemos</h2></div>
         </div>
-        <p className="contact-intro">Escribinos o llamanos al número oficial del equipo.</p>
-        <p className="contact-number">+54 9 379 472-5842</p>
+        <p className="contact-intro">Escribinos por WhatsApp para conversar sobre una idea.</p>
         <ul className="contact-list">
-          {site.contact.map((channel) => {
-            const isExternal = channel.url.startsWith('https://')
-            return (
-              <li key={channel.url}>
-                <a href={channel.url} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-                  {channel.label}<span aria-hidden="true">{isExternal ? '↗' : '→'}</span>
-                </a>
-              </li>
-            )
-          })}
+          {site.contact.map((channel) => (
+            <li key={channel.url}>
+              <a href={channel.url} target="_blank" rel="noopener noreferrer">
+                {channel.label}<span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
         </ul>
-        <p className="photo-note">Las fotografías son ilustrativas y no muestran instalaciones o prototipos del equipo.</p>
       </footer>
     </main>
   )

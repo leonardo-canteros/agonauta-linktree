@@ -7,11 +7,7 @@ export const site = {
   logo: null,
   contact: [
     {
-      label: 'Llamar · +54 9 379 472-5842',
-      url: 'tel:+5493794725842',
-    },
-    {
-      label: 'WhatsApp · +54 9 379 472-5842',
+      label: 'WhatsApp',
       url: 'https://wa.me/5493794725842',
     },
   ],
@@ -35,8 +31,7 @@ export const projects = [
     description:
       'Una propuesta para acompañar el seguimiento de las huertas y observar cómo evolucionan los cultivos.',
     image: '/images/jakaru-sensor.webp',
-    imageAlt:
-      'Sensor genérico colocado en la tierra junto a plantas de huerta; imagen ilustrativa, no es un prototipo del equipo',
+    imageAlt: 'Sensor genérico colocado en la tierra junto a plantas de huerta',
     links: [{ label: 'Ver proyecto', url: 'https://jakaru-pora-front.vercel.app/#/' }],
   },
   {
@@ -87,6 +82,19 @@ export const projects = [
       'Diseñamos y desarrollamos soluciones según las necesidades de cada proyecto, incluyendo aplicaciones, sistemas, dispositivos y robótica. Estamos abiertos a escuchar ideas, colaborar y desarrollar nuevos proyectos.',
     image: '/images/software.webp',
     imageAlt: 'Robot educativo armado con componentes electrónicos y sensores',
+    moreDetails: {
+      title: 'Desarrollamos ideas en software, hardware y robótica',
+      introduction:
+        'Acompañamos cada proyecto desde la idea inicial hasta el diseño y desarrollo de una solución a medida. Según las necesidades y el alcance acordado, podemos trabajar en:',
+      services: [
+        { title: 'Software', description: 'páginas web, aplicaciones, sistemas de gestión y herramientas digitales.' },
+        { title: 'Hardware', description: 'dispositivos electrónicos, integración de sensores y prototipos.' },
+        { title: 'Robótica', description: 'mecanismos, automatización y prototipos que integren componentes físicos y software.' },
+      ],
+      process:
+        'Conversamos sobre la necesidad, definimos el alcance, proponemos una solución, desarrollamos un primer prototipo y lo probamos para hacer mejoras.',
+      invitation: '¿Tenés una idea? Conversemos sobre cómo llevarla adelante.',
+    },
     links: [],
   },
 ]

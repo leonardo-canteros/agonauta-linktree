@@ -43,41 +43,65 @@ try {
     const jakaruButton = cards.nth(1).locator('.project-trigger')
     await jakaruButton.click()
     const jakaruExpanded = await jakaruButton.getAttribute('aria-expanded') === 'true'
-    const jakaruDestination = await cards.nth(1).getByRole('link', { name: 'Ver proyecto' }).getAttribute('href')
-    const jakaruAlt = await cards.nth(1).locator('.detail-figure img').getAttribute('alt')
+    const jakaruLink = cards.nth(1).getByRole('link', { name: 'Ver proyecto' })
+    const jakaruDestination = await jakaruLink.getAttribute('href')
     const jakaruStayedOnPage = page.url().endsWith('/proyectos/')
-    if (device.name === 'celular') {
-      await page.waitForTimeout(350)
-      await page.screenshot({ path: 'captura-jakaru-celular.png', fullPage: true })
-    }
+    await jakaruButton.click()
 
     const developmentButton = cards.nth(6).locator('.project-trigger')
     await developmentButton.click()
-    const jakaruCollapsedWhenDevelopmentOpened = await jakaruButton.getAttribute('aria-expanded') === 'false'
     const developmentExpanded = await developmentButton.getAttribute('aria-expanded') === 'true'
     const developmentSummary = await cards.nth(6).locator('.detail-description').textContent()
     const developmentImage = await cards.nth(6).locator('.detail-figure img').getAttribute('src')
-    const developmentHasNoLink = await cards.nth(6).getByRole('link').count() === 0
 
-    await developmentButton.focus()
-    await page.keyboard.press('Space')
-    const keyboardClosesAccordion = await developmentButton.getAttribute('aria-expanded') === 'false'
-    await page.keyboard.press('Enter')
-    const keyboardOpensAccordion = await developmentButton.getAttribute('aria-expanded') === 'true'
+    const pageText = await page.locator('body').innerText()
+    const phoneTextAbsent = !/\+?\d[\d\s().-]{7,}\d/.test(pageText)
+    const illustrationTextAbsent = !/ilustrativ[ao]s?/i.test(pageText)
+    const twitterTextAbsent = !/twitter/i.test(pageText)
+    const telephoneLinksAbsent = await page.locator('a[href^="tel:"]').count() === 0
+    const contactLinks = await page.locator('.contact-list a').evaluateAll((links) => links.map((link) => ({
+      text: link.innerText.replace('↗', '').trim(),
+      href: link.href,
+    })))
 
-    for (const img of await page.locator('.thumb img').all()) await img.scrollIntoViewIfNeeded()
-    await page.evaluate(() => window.scrollTo(0, 0))
+    const moreButton = cards.nth(6).getByRole('button', { name: 'Ver más' })
+    await moreButton.click()
+    const dialog = page.getByRole('dialog')
+    const modalVisible = await dialog.isVisible()
+    const modalTitle = await page.locator('#service-modal-title').textContent()
+    const services = await page.locator('.service-modal-list li').allTextContents()
+    const processDescription = await page.locator('.service-modal-process').textContent()
+    const invitation = await page.locator('.service-modal-invitation').textContent()
+    const modalImage = await page.locator('.service-modal-image img').getAttribute('src')
+    const closeButton = page.getByRole('button', { name: 'Cerrar' })
+    const closeButtonFocused = await closeButton.evaluate((element) => document.activeElement === element)
+    const modalGeometry = await dialog.evaluate((element) => {
+      const rect = element.getBoundingClientRect()
+      return { width: rect.width, height: rect.height, viewportWidth: window.innerWidth, viewportHeight: window.innerHeight }
+    })
+    const contactButtonInModal = await dialog.getByRole('link', { name: 'WhatsApp' }).getAttribute('href')
+    if (device.name === 'celular') await page.screenshot({ path: 'captura-modal-desarrollo-mobile.png' })
+
+    await page.keyboard.press('Escape')
+    const escapeCloses = await page.getByRole('dialog').count() === 0
+    await page.waitForFunction(() => document.activeElement?.textContent?.includes('Ver más'))
+    const focusReturnsAfterEscape = await moreButton.evaluate((element) => document.activeElement === element)
+    const bodyScrollRestoredAfterEscape = await page.evaluate(() => document.body.style.overflow === '')
+
+    await moreButton.click()
+    await page.getByRole('button', { name: 'Cerrar' }).click()
+    const buttonCloses = await page.getByRole('dialog').count() === 0
+    await page.waitForFunction(() => document.activeElement?.textContent?.includes('Ver más'))
+    const focusReturnsAfterButton = await moreButton.evaluate((element) => document.activeElement === element)
+
     const result = await page.evaluate(() => ({
       viewport: window.innerWidth,
       pageWidth: document.documentElement.scrollWidth,
       title: document.querySelector('h1')?.textContent,
       projects: document.querySelectorAll('.project-list > li').length,
-      projectNames: [...document.querySelectorAll('.project-name')].map((element) => element.textContent),
       detailPanels: document.querySelectorAll('.project-detail').length,
-      contactNumber: document.querySelector('.contact-number')?.textContent,
-      contactLinks: [...document.querySelectorAll('.contact-list a')].map((anchor) => anchor.href),
     }))
-    await page.screenshot({ path: `captura-${device.name}-actualizada.png`, fullPage: true })
+    await page.screenshot({ path: `captura-${device.name}-modal-actualizada.png`, fullPage: true })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const reducedMotion = await page.locator('.project-detail').first().evaluate((element) => getComputedStyle(element).transitionDuration === '0s')
 
@@ -85,17 +109,32 @@ try {
       device: device.name,
       status: response.status(),
       ...result,
+      projectNames: names,
       jakaruExpanded,
       jakaruDestination,
-      jakaruAlt,
       jakaruStayedOnPage,
-      jakaruCollapsedWhenDevelopmentOpened,
       developmentExpanded,
       developmentSummary,
       developmentImage,
-      developmentHasNoLink,
-      keyboardClosesAccordion,
-      keyboardOpensAccordion,
+      phoneTextAbsent,
+      telephoneLinksAbsent,
+      illustrationTextAbsent,
+      twitterTextAbsent,
+      contactLinks,
+      modalVisible,
+      modalTitle,
+      services,
+      processDescription,
+      invitation,
+      modalImage,
+      modalGeometry,
+      closeButtonFocused,
+      contactButtonInModal,
+      escapeCloses,
+      focusReturnsAfterEscape,
+      bodyScrollRestoredAfterEscape,
+      buttonCloses,
+      focusReturnsAfterButton,
       reducedMotion,
       errors,
     }, null, 2))
@@ -103,23 +142,40 @@ try {
     const valid = response.status() === 200
       && result.pageWidth <= result.viewport
       && result.projects === 7
+      && result.detailPanels === 7
       && JSON.stringify(names) === JSON.stringify(expectedNames)
       && result.title === 'Agronautas y proyectos del equipo'
-      && result.detailPanels === 7
-      && result.contactNumber === '+54 9 379 472-5842'
-      && result.contactLinks.includes('tel:+5493794725842')
-      && result.contactLinks.includes('https://wa.me/5493794725842')
       && jakaruExpanded
       && jakaruDestination === jakaruUrl
-      && jakaruAlt?.includes('imagen ilustrativa')
       && jakaruStayedOnPage
-      && jakaruCollapsedWhenDevelopmentOpened
       && developmentExpanded
-      && developmentSummary?.includes('aplicaciones, sistemas, dispositivos y robótica')
+      && developmentSummary?.includes('incluyendo aplicaciones, sistemas, dispositivos y robótica')
       && developmentImage === '/images/software.webp'
-      && developmentHasNoLink
-      && keyboardClosesAccordion
-      && keyboardOpensAccordion
+      && phoneTextAbsent
+      && telephoneLinksAbsent
+      && illustrationTextAbsent
+      && twitterTextAbsent
+      && contactLinks.length === 1
+      && contactLinks[0].text === 'WhatsApp'
+      && contactLinks[0].href === 'https://wa.me/5493794725842'
+      && modalVisible
+      && modalTitle === 'Desarrollamos ideas en software, hardware y robótica'
+      && services.length === 3
+      && services[0].includes('páginas web, aplicaciones, sistemas de gestión y herramientas digitales')
+      && services[1].includes('dispositivos electrónicos, integración de sensores y prototipos')
+      && services[2].includes('mecanismos, automatización y prototipos')
+      && processDescription?.toLowerCase().includes('conversamos sobre la necesidad')
+      && invitation === '¿Tenés una idea? Conversemos sobre cómo llevarla adelante.'
+      && modalImage === '/images/software.webp'
+      && modalGeometry.width <= modalGeometry.viewportWidth
+      && modalGeometry.height <= modalGeometry.viewportHeight
+      && closeButtonFocused
+      && contactButtonInModal === 'https://wa.me/5493794725842'
+      && escapeCloses
+      && focusReturnsAfterEscape
+      && bodyScrollRestoredAfterEscape
+      && buttonCloses
+      && focusReturnsAfterButton
       && reducedMotion
       && errors.length === 0
     if (!valid) process.exitCode = 1
