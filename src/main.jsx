@@ -220,7 +220,7 @@ function App() {
           </span>
           <div><p className="section-kicker">¿Tenés una idea?</p><h2 id="contact-heading">Hablemos</h2></div>
         </div>
-        <p className="contact-intro">Escribinos por WhatsApp para conversar sobre una idea.</p>
+        <p className="contact-intro">Escribinos o llamanos para conversar sobre una idea.</p>
         <ul className="contact-list">
           {site.contact.map((channel) => (
             <li key={channel.url}>

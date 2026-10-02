@@ -58,7 +58,10 @@ try {
     const phoneTextAbsent = !/\+?\d[\d\s().-]{7,}\d/.test(pageText)
     const illustrationTextAbsent = !/ilustrativ[ao]s?/i.test(pageText)
     const twitterTextAbsent = !/twitter/i.test(pageText)
-    const telephoneLinksAbsent = await page.locator('a[href^="tel:"]').count() === 0
+    const callLink = page.locator('.contact-list a[href^="tel:"]')
+    const callLinkAvailable = await callLink.count() === 1
+    const callLinkLabel = await callLink.innerText()
+    const callLinkDestination = await callLink.getAttribute('href')
     const contactLinks = await page.locator('.contact-list a').evaluateAll((links) => links.map((link) => ({
       text: link.innerText.replace('↗', '').trim(),
       href: link.href,
@@ -84,14 +87,14 @@ try {
 
     await page.keyboard.press('Escape')
     const escapeCloses = await page.getByRole('dialog').count() === 0
-    await page.waitForFunction(() => document.activeElement?.textContent?.includes('Ver más'))
+    await page.waitForFunction(() => document.activeElement?.classList.contains('more-button'))
     const focusReturnsAfterEscape = await moreButton.evaluate((element) => document.activeElement === element)
     const bodyScrollRestoredAfterEscape = await page.evaluate(() => document.body.style.overflow === '')
 
     await moreButton.click()
     await page.getByRole('button', { name: 'Cerrar' }).click()
     const buttonCloses = await page.getByRole('dialog').count() === 0
-    await page.waitForFunction(() => document.activeElement?.textContent?.includes('Ver más'))
+    await page.waitForFunction(() => document.activeElement?.classList.contains('more-button'))
     const focusReturnsAfterButton = await moreButton.evaluate((element) => document.activeElement === element)
 
     const result = await page.evaluate(() => ({
@@ -117,7 +120,9 @@ try {
       developmentSummary,
       developmentImage,
       phoneTextAbsent,
-      telephoneLinksAbsent,
+      callLinkAvailable,
+      callLinkLabel,
+      callLinkDestination,
       illustrationTextAbsent,
       twitterTextAbsent,
       contactLinks,
@@ -152,12 +157,16 @@ try {
       && developmentSummary?.includes('incluyendo aplicaciones, sistemas, dispositivos y robótica')
       && developmentImage === '/images/software.webp'
       && phoneTextAbsent
-      && telephoneLinksAbsent
+      && callLinkAvailable
+      && callLinkLabel.includes('Llamar')
+      && callLinkDestination === 'tel:+5493794725842'
       && illustrationTextAbsent
       && twitterTextAbsent
-      && contactLinks.length === 1
-      && contactLinks[0].text === 'WhatsApp'
-      && contactLinks[0].href === 'https://wa.me/5493794725842'
+      && contactLinks.length === 2
+      && contactLinks[0].text === 'Llamar'
+      && contactLinks[0].href === 'tel:+5493794725842'
+      && contactLinks[1].text === 'WhatsApp'
+      && contactLinks[1].href === 'https://wa.me/5493794725842'
       && modalVisible
       && modalTitle === 'Desarrollamos ideas en software, hardware y robótica'
       && services.length === 3

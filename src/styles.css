@@ -199,7 +199,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid #207ea3; outline-offs
 @media (max-width: 520px) {
   .contact { grid-template-columns: 1fr; gap: 12px; padding: 18px 16px; }
   .contact-intro, .contact-list { grid-column: auto; }
-  .contact-list { justify-content: stretch; display: grid; grid-template-columns: 1fr; }
+  .contact-list { justify-content: stretch; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .contact-list a { width: 100%; gap: 7px; padding-inline: 9px; font-size: 11px; }
 }
 @media (max-width: 680px) {

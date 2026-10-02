@@ -7,6 +7,10 @@ export const site = {
   logo: null,
   contact: [
     {
+      label: 'Llamar',
+      url: 'tel:+5493794725842',
+    },
+    {
       label: 'WhatsApp',
       url: 'https://wa.me/5493794725842',
     },
