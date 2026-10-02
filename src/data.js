@@ -2,16 +2,14 @@
 // Solo agregar URLs y canales confirmados por el equipo.
 export const site = {
   title: 'Agronautas y proyectos del equipo',
-  introduction:
-    'Somos nueve emprendedores que crean proyectos de software y hardware para desafíos reales.',
   logo: null,
   contact: [
     {
-      label: 'Llamar',
+      label: 'Llamar · +54 9 379 472-5842',
       url: 'tel:+5493794725842',
     },
     {
-      label: 'WhatsApp',
+      label: 'WhatsApp · +54 9 379 472-5842',
       url: 'https://wa.me/5493794725842',
     },
   ],

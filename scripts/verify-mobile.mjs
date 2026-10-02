@@ -35,11 +35,6 @@ try {
 
     const cards = page.locator('.project-card')
     const names = await page.locator('.project-name').allTextContents()
-    await page.waitForFunction(() => {
-      const image = document.querySelector('.profile-image')
-      return image?.complete && image.naturalWidth > 0
-    })
-
     const jakaruButton = cards.nth(1).locator('.project-trigger')
     await jakaruButton.click()
     const jakaruExpanded = await jakaruButton.getAttribute('aria-expanded') === 'true'
@@ -55,7 +50,9 @@ try {
     const developmentImage = await cards.nth(6).locator('.detail-figure img').getAttribute('src')
 
     const pageText = await page.locator('body').innerText()
-    const phoneTextAbsent = !/\+?\d[\d\s().-]{7,}\d/.test(pageText)
+    const phoneTextPresent = pageText.includes('+54 9 379 472-5842')
+    const headerImageAbsent = await page.locator('.profile-image').count() === 0
+    const headerIntroAbsent = !pageText.includes('Somos nueve')
     const illustrationTextAbsent = !/ilustrativ[ao]s?/i.test(pageText)
     const twitterTextAbsent = !/twitter/i.test(pageText)
     const callLink = page.locator('.contact-list a[href^="tel:"]')
@@ -119,7 +116,9 @@ try {
       developmentExpanded,
       developmentSummary,
       developmentImage,
-      phoneTextAbsent,
+      phoneTextPresent,
+      headerImageAbsent,
+      headerIntroAbsent,
       callLinkAvailable,
       callLinkLabel,
       callLinkDestination,
@@ -156,16 +155,20 @@ try {
       && developmentExpanded
       && developmentSummary?.includes('incluyendo aplicaciones, sistemas, dispositivos y robótica')
       && developmentImage === '/images/software.webp'
-      && phoneTextAbsent
+      && phoneTextPresent
+      && headerImageAbsent
+      && headerIntroAbsent
       && callLinkAvailable
       && callLinkLabel.includes('Llamar')
       && callLinkDestination === 'tel:+5493794725842'
       && illustrationTextAbsent
       && twitterTextAbsent
       && contactLinks.length === 2
-      && contactLinks[0].text === 'Llamar'
+      && contactLinks[0].text.includes('Llamar')
+      && contactLinks[0].text.includes('+54 9 379 472-5842')
       && contactLinks[0].href === 'tel:+5493794725842'
-      && contactLinks[1].text === 'WhatsApp'
+      && contactLinks[1].text.includes('WhatsApp')
+      && contactLinks[1].text.includes('+54 9 379 472-5842')
       && contactLinks[1].href === 'https://wa.me/5493794725842'
       && modalVisible
       && modalTitle === 'Desarrollamos ideas en software, hardware y robótica'

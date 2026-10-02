@@ -125,16 +125,6 @@ function App() {
         {site.logo && <img className="profile-logo" src={site.logo} alt="Logo oficial de Agronautas" width="104" height="104" />}
         <p className="profile-kicker">Software · Hardware · Robótica</p>
         <h1>{site.title}</h1>
-        <div className="profile-intro-row">
-          <img
-            className="profile-image"
-            src="/images/software.webp"
-            alt="Robot armado con componentes electrónicos"
-            width="680"
-            height="510"
-          />
-          <p className="profile-intro">{site.introduction}</p>
-        </div>
       </header>
 
       <section className="directory" aria-labelledby="projects-heading">
