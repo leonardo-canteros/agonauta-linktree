@@ -33,7 +33,6 @@ function ProjectCard({ project, index, isOpen, onToggle }) {
             <div className="detail-rule" />
             <figure className="detail-figure">
               <img src={project.image} alt={project.imageAlt} loading="lazy" width="680" height="510" />
-              <figcaption>Imagen ilustrativa</figcaption>
             </figure>
             <p className="detail-description">{project.description}</p>
             {project.note && <p className="detail-note">{project.note}</p>}
@@ -64,7 +63,6 @@ function App() {
       <section className="directory" aria-labelledby="projects-heading">
         <div className="section-heading">
           <div><p className="section-kicker">Explorá lo que hacemos</p><h2 id="projects-heading">Nuestros proyectos</h2></div>
-          <span className="project-count">{String(projects.length).padStart(2, '0')} iniciativas</span>
         </div>
         <ul className="project-list">
           {projects.map((project, index) => (

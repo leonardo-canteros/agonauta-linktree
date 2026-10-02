@@ -40,25 +40,22 @@ try {
       title: document.querySelector('h1')?.textContent,
       projects: document.querySelectorAll('.project-list > li').length,
       projectNames: [...document.querySelectorAll('.project-name')].map((element) => element.textContent),
-      externalLinks: [...document.querySelectorAll('a[href^="http"]')].map((a) => a.href),
+      externalLinks: [...document.querySelectorAll('.project-link')].map((a) => a.href),
+      captions: document.querySelectorAll('.detail-figure figcaption').length,
+      projectCountLabel: document.querySelector('.project-count')?.textContent ?? null,
       logoPresent: Boolean(document.querySelector('.profile-logo')),
       logoLoaded: Boolean(document.querySelector('.profile-logo')?.naturalWidth),
       imagesLoaded: [...document.querySelectorAll('.thumb img')].every((img) => img.naturalWidth > 0),
       detailExpanded: document.querySelector('.project-detail').getBoundingClientRect().height > 200,
       clippedDescriptions: [...document.querySelectorAll('.project-short')].filter((element) => element.scrollWidth > element.clientWidth).length,
     }))
-    const linkResults = []
-    for (const url of result.externalLinks) {
-      const linkResponse = await page.request.get(url)
-      linkResults.push({ url, status: linkResponse.status() })
-      if (!linkResponse.ok()) process.exitCode = 1
-    }
     await page.screenshot({ path: `captura-${device.name}.png`, fullPage: true })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const reducedMotion = await page.locator('.project-detail').first().evaluate((element) => getComputedStyle(element).transitionDuration === '0s')
-    console.log(JSON.stringify({ device: device.name, status: response.status(), ...result, initialState, firstClickStays, oneAtATime, clickCloses, enterOpens, spaceCloses, reducedMotion, linkResults, errors }, null, 2))
-    const expectedNames = ['Agronautas', 'Jakaru Porá', 'TUS', 'Pía', 'Medbot', 'Tilo', 'Desarrollo de software y hardware']
-    if (response.status() !== 200 || result.pageWidth > result.viewport || result.projects !== 7 || JSON.stringify(result.projectNames) !== JSON.stringify(expectedNames) || (result.logoPresent && !result.logoLoaded) || !result.imagesLoaded || !result.detailExpanded || result.clippedDescriptions || !initialState || !firstClickStays || !oneAtATime || !clickCloses || !enterOpens || !spaceCloses || !reducedMotion || errors.length) process.exitCode = 1
+    console.log(JSON.stringify({ device: device.name, status: response.status(), ...result, initialState, firstClickStays, oneAtATime, clickCloses, enterOpens, spaceCloses, reducedMotion, errors }, null, 2))
+    const expectedNames = ['Agronautas', 'TUS', 'Pía', 'Medbot', 'Tilo', 'Desarrollo de software y hardware']
+    const expectedLinks = ['https://www.agronauta.com.ar/', 'https://www.tusservicios.shop/', 'https://proyecto-paso.vercel.app/', 'https://www.medbot.com.ar/', 'https://www.tilotech.com.ar/']
+    if (response.status() !== 200 || result.pageWidth > result.viewport || result.projects !== 6 || JSON.stringify(result.projectNames) !== JSON.stringify(expectedNames) || JSON.stringify(result.externalLinks) !== JSON.stringify(expectedLinks) || result.captions !== 0 || result.projectCountLabel !== null || (result.logoPresent && !result.logoLoaded) || !result.imagesLoaded || !result.detailExpanded || result.clippedDescriptions || !initialState || !firstClickStays || !oneAtATime || !clickCloses || !enterOpens || !spaceCloses || !reducedMotion || errors.length) process.exitCode = 1
     await page.close()
   }
 } finally {

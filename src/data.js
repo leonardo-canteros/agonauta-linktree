@@ -17,17 +17,7 @@ export const projects = [
       'Desarrollamos propuestas para el campo: monitoreo de las huertas de Jakaru Porá y exploración de herramientas para monitoreo ganadero y cerca electrónica. Está en desarrollo.',
     image: '/images/huertas.webp',
     imageAlt: 'Huerta verde con cultivos y un invernadero',
-    links: [],
-  },
-  {
-    id: 'jakaru-pora',
-    name: 'Jakaru Porá',
-    shortDescription: 'Seguimiento de huertas.',
-    description:
-      'Una propuesta para seguir las huertas de Jakaru Porá, reunir información útil y acompañar las decisiones de quienes las trabajan. Está en desarrollo.',
-    image: '/images/jakaru-pora.webp',
-    imageAlt: 'Hileras de hortalizas verdes en una huerta',
-    links: [],
+    links: [{ label: 'Ver proyecto', url: 'https://www.agronauta.com.ar/' }],
   },
   {
     id: 'tus',
@@ -36,8 +26,8 @@ export const projects = [
     description:
       'Un espacio para acercar a las personas con profesionales según el servicio o la solución que necesitan.',
     image: '/images/tus.webp',
-    imageAlt: 'Profesionales trabajando juntos frente a computadoras',
-    links: [],
+    imageAlt: 'Electricista revisando un tablero de control con un multímetro',
+    links: [{ label: 'Ver proyecto', url: 'https://www.tusservicios.shop' }],
   },
   {
     id: 'pia',
@@ -46,8 +36,8 @@ export const projects = [
     description:
       'Una asistente turística con inteligencia artificial pensada para acompañar la exploración de destinos y experiencias.',
     image: '/images/pia.webp',
-    imageAlt: 'Lago turquesa rodeado de montañas',
-    links: [],
+    imageAlt: 'Guía turística explicando un recorrido a un grupo de visitantes',
+    links: [{ label: 'Ver proyecto', url: 'https://proyecto-paso.vercel.app/' }],
   },
   {
     id: 'medbot',
@@ -57,7 +47,7 @@ export const projects = [
       'Una iniciativa que combina tecnología y cuidado para explorar la medición de signos vitales.',
     image: '/images/medbot.webp',
     imageAlt: 'Toma de presión arterial con un tensiómetro',
-    links: [],
+    links: [{ label: 'Ver proyecto', url: 'https://www.medbot.com.ar' }],
   },
   {
     id: 'tilo',
@@ -67,16 +57,16 @@ export const projects = [
       'Un asistente de compañía pensado para acompañar a personas mayores en su vida cotidiana.',
     image: '/images/tilo.webp',
     imageAlt: 'Persona mayor sonriente usando una tableta en su hogar',
-    links: [],
+    links: [{ label: 'Ver proyecto', url: 'https://www.tilotech.com.ar' }],
   },
   {
     id: 'software-hardware',
     name: 'Desarrollo de software y hardware',
-    shortDescription: 'Soluciones a medida.',
+    shortDescription: 'Robótica a medida.',
     description:
-      'Diseñamos soluciones digitales y de hardware adaptadas a las necesidades de cada cliente o proyecto.',
+      'Diseñamos y desarrollamos soluciones de robótica, hardware y software adaptadas a cada proyecto.',
     image: '/images/software.webp',
-    imageAlt: 'Persona trabajando en código en una computadora portátil',
+    imageAlt: 'Robot educativo armado con componentes electrónicos y sensores',
     links: [],
   },
 ]

@@ -7,10 +7,9 @@ Todas las páginas de origen indican que la foto es gratuita bajo la [licencia d
 | Archivo | Proyecto | Autor y fuente |
 | --- | --- | --- |
 | `huertas.webp` | Agronautas | [Adrien Olichon](https://unsplash.com/photos/a-lush-garden-with-rows-of-vegetables-and-a-greenhouse-VTGSuzQwk4o) |
-| `jakaru-pora.webp` | Jakaru Porá | [Markus Winkler](https://unsplash.com/photos/green-vegetable-rows-in-h%E1%BB%99i-an-HeqXGxnsnX4) |
-| `pia.webp` | Pía | [Christopher Politano](https://unsplash.com/photos/a-stunning-turquoise-lake-sits-before-a-mountain-range-ggqWwKnmsQs) |
-| `tus.webp` | TUS | [Vitaly Gariev](https://unsplash.com/photos/colleagues-collaborating-in-a-modern-office-environment-pVyb2zYnl1c) |
+| `pia.webp` | Pía | [Phil Hearing](https://unsplash.com/photos/a-woman-speaks-to-a-crowd-on-a-street-MqOMMMs8gCo) |
+| `tus.webp` | TUS | [Toolmash Expo](https://unsplash.com/photos/electrician-testing-electrical-panel-with-multimeter-PkHf7BUWbtk) |
 | `medbot.webp` | Medbot | [CDC](https://unsplash.com/photos/a-doctor-checking-the-blood-pressure-of-a-patient-XdErxxR6Xog) |
-| `software.webp` | Desarrollo de software y hardware | [Alicia Christin Gerald](https://unsplash.com/photos/developer-typing-code-on-a-laptop-screen-xaWYIbNIOdw) |
+| `software.webp` | Desarrollo de software y hardware | [Gabriel Vasiliu](https://unsplash.com/photos/a-robot-made-out-of-electronics-and-wires-fCJi6nVU27o) |
 | `tilo.webp` | Tilo | [Vitaly Gariev](https://unsplash.com/photos/elderly-man-smiling-while-using-a-tablet-on-couch-lxwUal2xjHk) |
 | `campo-fondo.webp` | Fondo de la página | [Frédéric LO BRUTTO](https://unsplash.com/photos/lush-green-field-under-a-clear-blue-sky-kte9kbIvO4U) |
