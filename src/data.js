@@ -15,9 +15,18 @@ export const projects = [
     shortDescription: 'Tecnología para el campo.',
     description:
       'Desarrollamos propuestas para el campo: monitoreo de las huertas de Jakaru Porá y exploración de herramientas para monitoreo ganadero y cerca electrónica. Está en desarrollo.',
-    note: 'Cualquier demostración utiliza datos simulados.',
     image: '/images/huertas.webp',
     imageAlt: 'Huerta verde con cultivos y un invernadero',
+    links: [],
+  },
+  {
+    id: 'jakaru-pora',
+    name: 'Jakaru Porá',
+    shortDescription: 'Seguimiento de huertas.',
+    description:
+      'Una propuesta para seguir las huertas de Jakaru Porá, reunir información útil y acompañar las decisiones de quienes las trabajan. Está en desarrollo.',
+    image: '/images/jakaru-pora.webp',
+    imageAlt: 'Hileras de hortalizas verdes en una huerta',
     links: [],
   },
   {
@@ -51,16 +60,6 @@ export const projects = [
     links: [],
   },
   {
-    id: 'software-robotica-personalizado',
-    name: 'Desarrollo de software y robótica personalizado',
-    shortDescription: 'Soluciones a medida.',
-    description:
-      'Diseñamos soluciones digitales y de robótica adaptadas a las necesidades de cada cliente o proyecto.',
-    image: '/images/software.webp',
-    imageAlt: 'Persona trabajando en código en una computadora portátil',
-    links: [],
-  },
-  {
     id: 'tilo',
     name: 'Tilo',
     shortDescription: 'Compañía cotidiana.',
@@ -68,6 +67,16 @@ export const projects = [
       'Un asistente de compañía pensado para acompañar a personas mayores en su vida cotidiana.',
     image: '/images/tilo.webp',
     imageAlt: 'Persona mayor sonriente usando una tableta en su hogar',
+    links: [],
+  },
+  {
+    id: 'software-hardware',
+    name: 'Desarrollo de software y hardware',
+    shortDescription: 'Soluciones a medida.',
+    description:
+      'Diseñamos soluciones digitales y de hardware adaptadas a las necesidades de cada cliente o proyecto.',
+    image: '/images/software.webp',
+    imageAlt: 'Persona trabajando en código en una computadora portátil',
     links: [],
   },
 ]

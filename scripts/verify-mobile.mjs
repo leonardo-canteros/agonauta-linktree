@@ -57,8 +57,8 @@ try {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const reducedMotion = await page.locator('.project-detail').first().evaluate((element) => getComputedStyle(element).transitionDuration === '0s')
     console.log(JSON.stringify({ device: device.name, status: response.status(), ...result, initialState, firstClickStays, oneAtATime, clickCloses, enterOpens, spaceCloses, reducedMotion, linkResults, errors }, null, 2))
-    const expectedNames = ['Agronautas', 'TUS', 'Pía', 'Medbot', 'Desarrollo de software y robótica personalizado', 'Tilo']
-    if (response.status() !== 200 || result.pageWidth > result.viewport || result.projects !== 6 || JSON.stringify(result.projectNames) !== JSON.stringify(expectedNames) || (result.logoPresent && !result.logoLoaded) || !result.imagesLoaded || !result.detailExpanded || result.clippedDescriptions || !initialState || !firstClickStays || !oneAtATime || !clickCloses || !enterOpens || !spaceCloses || !reducedMotion || errors.length) process.exitCode = 1
+    const expectedNames = ['Agronautas', 'Jakaru Porá', 'TUS', 'Pía', 'Medbot', 'Tilo', 'Desarrollo de software y hardware']
+    if (response.status() !== 200 || result.pageWidth > result.viewport || result.projects !== 7 || JSON.stringify(result.projectNames) !== JSON.stringify(expectedNames) || (result.logoPresent && !result.logoLoaded) || !result.imagesLoaded || !result.detailExpanded || result.clippedDescriptions || !initialState || !firstClickStays || !oneAtATime || !clickCloses || !enterOpens || !spaceCloses || !reducedMotion || errors.length) process.exitCode = 1
     await page.close()
   }
 } finally {
