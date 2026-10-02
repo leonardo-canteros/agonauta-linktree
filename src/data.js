@@ -10,44 +10,14 @@ export const site = {
 
 export const projects = [
   {
-    id: 'agronautas-huertas',
-    name: 'Agronautas · Huertas',
-    shortDescription: 'Monitoreo para Jakaru Porá.',
+    id: 'agronautas',
+    name: 'Agronautas',
+    shortDescription: 'Tecnología para el campo.',
     description:
-      'Proponemos monitorear las huertas de Jakaru Porá para reunir información útil y acompañar las decisiones de quienes las trabajan. El proyecto está en desarrollo.',
+      'Desarrollamos propuestas para el campo: monitoreo de las huertas de Jakaru Porá y exploración de herramientas para monitoreo ganadero y cerca electrónica. Está en desarrollo.',
     note: 'Cualquier demostración utiliza datos simulados.',
     image: '/images/huertas.webp',
     imageAlt: 'Huerta verde con cultivos y un invernadero',
-    links: [],
-  },
-  {
-    id: 'agronautas-ganaderia',
-    name: 'Agronautas · Ganadería',
-    shortDescription: 'Ganado y cerca electrónica.',
-    description:
-      'Exploramos herramientas para el seguimiento del ganado y una cerca electrónica aplicada al manejo de espacios productivos.',
-    image: '/images/ganaderia.webp',
-    imageAlt: 'Dos vacas pastando en un campo verde',
-    links: [],
-  },
-  {
-    id: 'alki',
-    name: 'ALKI',
-    shortDescription: 'Alquileres y alojamientos.',
-    description:
-      'Una propuesta digital para conectar opciones de alquiler y alojamiento con personas que buscan dónde quedarse.',
-    image: '/images/alki.webp',
-    imageAlt: 'Interior de una habitación de alojamiento con sillones y escritorio',
-    links: [],
-  },
-  {
-    id: 'pia',
-    name: 'Pía',
-    shortDescription: 'Turismo con IA.',
-    description:
-      'Una asistente turística con inteligencia artificial pensada para acompañar la exploración de destinos y experiencias.',
-    image: '/images/pia.webp',
-    imageAlt: 'Lago turquesa rodeado de montañas',
     links: [],
   },
   {
@@ -61,9 +31,19 @@ export const projects = [
     links: [],
   },
   {
+    id: 'pia',
+    name: 'Pía',
+    shortDescription: 'Turismo con IA.',
+    description:
+      'Una asistente turística con inteligencia artificial pensada para acompañar la exploración de destinos y experiencias.',
+    image: '/images/pia.webp',
+    imageAlt: 'Lago turquesa rodeado de montañas',
+    links: [],
+  },
+  {
     id: 'medbot',
     name: 'Medbot',
-    shortDescription: 'Signos vitales.',
+    shortDescription: 'Medición de signos vitales.',
     description:
       'Una iniciativa que combina tecnología y cuidado para explorar la medición de signos vitales.',
     image: '/images/medbot.webp',
@@ -71,13 +51,23 @@ export const projects = [
     links: [],
   },
   {
-    id: 'software-personalizado',
-    name: 'Desarrollo de software personalizado',
-    shortDescription: 'Software a medida.',
+    id: 'software-robotica-personalizado',
+    name: 'Desarrollo de software y robótica personalizado',
+    shortDescription: 'Soluciones a medida.',
     description:
-      'Diseñamos soluciones digitales adaptadas a las necesidades de cada cliente o proyecto, desde la idea hasta su implementación.',
+      'Diseñamos soluciones digitales y de robótica adaptadas a las necesidades de cada cliente o proyecto.',
     image: '/images/software.webp',
     imageAlt: 'Persona trabajando en código en una computadora portátil',
+    links: [],
+  },
+  {
+    id: 'tilo',
+    name: 'Tilo',
+    shortDescription: 'Compañía cotidiana.',
+    description:
+      'Un asistente de compañía pensado para acompañar a personas mayores en su vida cotidiana.',
+    image: '/images/tilo.webp',
+    imageAlt: 'Persona mayor sonriente usando una tableta en su hogar',
     links: [],
   },
 ]

@@ -1,7 +1,7 @@
 :root {
   font-family: "Segoe UI", Inter, system-ui, sans-serif;
   color: #173d50;
-  background: #eff5f1;
+  background: #174c5f;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -11,24 +11,22 @@
 body { min-width: 320px; margin: 0; }
 body::before {
   content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 300px;
+  position: fixed;
+  inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 52% -35%, #95cfbe63 0, transparent 56%),
-    linear-gradient(145deg, #14527e 0%, #207da1 47%, #4b9a70 100%);
+    linear-gradient(180deg, #0b436ba8 0%, #165c70bb 42%, #174c5f 100%),
+    linear-gradient(110deg, #0b37674d, #2f8b5b4d),
+    url('/images/campo-fondo.webp') center center / cover no-repeat;
 }
 body::after {
   content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 300px;
+  position: fixed;
+  inset: 0;
   z-index: -1;
-  opacity: .17;
-  background: repeating-linear-gradient(0deg, transparent 0 35px, #ffffff34 36px),
-              repeating-linear-gradient(90deg, transparent 0 35px, #ffffff34 36px);
-  mask-image: linear-gradient(#000, transparent 90%);
+  opacity: .24;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 8%, #a5e4c44d, transparent 46%);
 }
 button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }
@@ -77,8 +75,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid #207ea3; outline-offs
 
 .directory { margin-top: 30px; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin: 0 3px 15px; }
-.section-heading h2, .contact h2 { margin: 4px 0 0; color: #153f57; font-size: 20px; font-weight: 790; letter-spacing: -.035em; }
-.project-count { flex: none; color: #587d76; font-size: 11px; font-weight: 750; padding-bottom: 3px; }
+.section-heading .section-kicker { color: #bfe6d5; }
+.section-heading h2, .contact h2 { margin: 4px 0 0; color: #fff; font-size: 20px; font-weight: 790; letter-spacing: -.035em; }
+.project-count { flex: none; color: #d7eee5; font-size: 11px; font-weight: 750; padding-bottom: 3px; }
 .project-list, .contact-list { margin: 0; padding: 0; list-style: none; }
 .project-list { display: grid; gap: 10px; }
 .project-card {
@@ -87,7 +86,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid #207ea3; outline-offs
   background: #fff;
   border: 1px solid #dce8e3;
   border-radius: 18px;
-  box-shadow: 0 5px 18px #17445512;
+  box-shadow: 0 9px 24px #082d3c2e;
   transition: border-color .23s, box-shadow .23s, transform .23s;
 }
 .project-card::before {
@@ -100,8 +99,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid #207ea3; outline-offs
   background: linear-gradient(#3485aa, #65ae76);
   opacity: .65;
 }
-.project-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px #17445520; }
-.project-card.is-open { border-color: #66a78d; box-shadow: 0 12px 30px #17445524; }
+.project-card:hover { transform: translateY(-2px); box-shadow: 0 13px 27px #082d3c3b; }
+.project-card.is-open { border-color: #72bb9a; box-shadow: 0 15px 32px #082d3c42; }
 .project-card.is-open::before { opacity: 1; }
 .project-trigger {
   display: grid;
@@ -153,12 +152,13 @@ button:focus-visible, a:focus-visible { outline: 3px solid #207ea3; outline-offs
 .project-link { display: inline-flex; align-items: center; gap: 20px; margin-top: 15px; padding: 11px 15px; border-radius: 999px; background: #1d7188; color: #fff; font-size: 12px; font-weight: 790; }
 .project-link:hover { background: #155a72; }
 
-.contact { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px 20px; margin-top: 31px; padding: 21px 3px 0; border-top: 1px solid #d5e4dc; }
+.contact { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px 20px; margin-top: 29px; padding: 19px 20px; border: 1px solid #ffffff9e; border-radius: 18px; background: #ffffffec; box-shadow: 0 9px 24px #082d3c24; }
+.contact h2 { color: #153f57; }
 .contact-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .contact-list a { display: inline-flex; gap: 15px; padding: 10px 14px; border: 1px solid #cbe2d5; border-radius: 999px; background: #fff; color: #205f73; font-size: 12px; font-weight: 760; }
 .contact-list a:hover { border-color: #78af91; }
 .contact-empty { margin: 0 0 2px; color: #607d81; font-size: 12px; }
-.photo-note { width: 100%; margin: 14px 0 0; color: #6b8586; font-size: 10px; line-height: 1.5; }
+.photo-note { width: 100%; margin: 8px 0 0; color: #6b8586; font-size: 10px; line-height: 1.5; }
 
 @media (max-width: 430px) {
   .page { width: min(100% - 24px, 560px); padding-top: 84px; }
