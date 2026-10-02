@@ -6,56 +6,136 @@ const browser = await chromium.launch({
 })
 
 try {
+  const expectedNames = [
+    'Agronautas',
+    'Jakaru Porá',
+    'TUS',
+    'Pía',
+    'Medbot',
+    'Tilo',
+    'Desarrollo de software y hardware personalizado',
+  ]
+  const jakaruUrl = 'https://jakaru-pora-front.vercel.app/#/?section=propuesta'
+
   for (const device of [
     { name: 'celular', width: 390, height: 844, isMobile: true },
     { name: 'celular-compacto', width: 320, height: 640, isMobile: true },
     { name: 'escritorio', width: 1280, height: 900, isMobile: false },
   ]) {
-    const page = await browser.newPage({ viewport: { width: device.width, height: device.height }, deviceScaleFactor: 1, isMobile: device.isMobile, hasTouch: device.isMobile })
+    const page = await browser.newPage({
+      viewport: { width: device.width, height: device.height },
+      deviceScaleFactor: 1,
+      isMobile: device.isMobile,
+      hasTouch: device.isMobile,
+    })
     const errors = []
     page.on('pageerror', (error) => errors.push(error.message))
     const response = await page.goto('http://localhost:4173/proyectos/', { waitUntil: 'networkidle' })
     await page.reload({ waitUntil: 'networkidle' })
-    const triggers = page.locator('.project-trigger')
-    const initialState = await triggers.evaluateAll((elements) => elements.every((element) => element.getAttribute('aria-expanded') === 'false'))
-    await triggers.nth(0).click()
-    const firstClickStays = page.url().endsWith('/proyectos/') && await triggers.nth(0).getAttribute('aria-expanded') === 'true'
-    await triggers.nth(1).click()
-    const oneAtATime = await triggers.nth(0).getAttribute('aria-expanded') === 'false' && await triggers.nth(1).getAttribute('aria-expanded') === 'true'
-    await triggers.nth(1).click()
-    const clickCloses = await triggers.nth(1).getAttribute('aria-expanded') === 'false'
-    await triggers.nth(0).focus()
-    await page.keyboard.press('Enter')
-    const enterOpens = await triggers.nth(0).getAttribute('aria-expanded') === 'true'
-    await page.keyboard.press('Space')
-    const spaceCloses = await triggers.nth(0).getAttribute('aria-expanded') === 'false'
+
+    const cards = page.locator('.project-card')
+    const names = await page.locator('.project-name').allTextContents()
+    const imagesLoaded = await page.waitForFunction(() =>
+      [...document.querySelectorAll('.thumb img')].every((img) => img.complete && img.naturalWidth > 0),
+    )
+    const jakaruLink = cards.nth(1).locator('.project-direct-link')
+    const directHref = await jakaruLink.getAttribute('href')
+    const [jakaruPage] = await Promise.all([
+      page.waitForEvent('popup'),
+      jakaruLink.click(),
+    ])
+    await jakaruPage.waitForLoadState('domcontentloaded')
+    const directOpened = jakaruPage.url() === jakaruUrl
+    await jakaruPage.close()
+
+    const accordionButton = cards.nth(0).locator('.project-trigger')
+    await accordionButton.click()
+    const accordionOpens = await accordionButton.getAttribute('aria-expanded') === 'true'
+    const cardClickStays = page.url().endsWith('/proyectos/')
+    await accordionButton.click()
+    const accordionCloses = await accordionButton.getAttribute('aria-expanded') === 'false'
+
+    const modalTrigger = cards.nth(6).locator('.project-trigger')
+    await modalTrigger.click()
+    const dialog = page.getByRole('dialog')
+    const modalVisible = await dialog.isVisible()
+    const modalTitle = await page.locator('#project-modal-title').textContent()
+    const closeButton = page.getByRole('button', { name: 'Cerrar' })
+    const closeButtonFocused = await closeButton.evaluate((element) => document.activeElement === element)
+    const modalGeometry = await dialog.evaluate((element) => {
+      const rect = element.getBoundingClientRect()
+      return { width: rect.width, height: rect.height, viewportHeight: window.innerHeight }
+    })
+    await page.keyboard.press('Escape')
+    const escapeCloses = await page.getByRole('dialog').count() === 0
+    await page.waitForFunction(() => document.activeElement?.closest('.project-card.is-modal') !== null)
+    const focusReturnsAfterEscape = await modalTrigger.evaluate((element) => document.activeElement === element)
+    await modalTrigger.click()
+    await page.getByRole('button', { name: 'Cerrar' }).click()
+    const buttonCloses = await page.getByRole('dialog').count() === 0
+    await page.waitForFunction(() => document.activeElement?.closest('.project-card.is-modal') !== null)
+    const focusReturnsAfterButton = await modalTrigger.evaluate((element) => document.activeElement === element)
+
     for (const img of await page.locator('.thumb img').all()) await img.scrollIntoViewIfNeeded()
-    await page.waitForFunction(() => [...document.querySelectorAll('.thumb img')].every((img) => img.complete && img.naturalWidth > 0))
-    await triggers.nth(0).click()
-    await page.locator('h1').click()
-    await page.waitForTimeout(350)
     const result = await page.evaluate(() => ({
       viewport: window.innerWidth,
       pageWidth: document.documentElement.scrollWidth,
       title: document.querySelector('h1')?.textContent,
       projects: document.querySelectorAll('.project-list > li').length,
       projectNames: [...document.querySelectorAll('.project-name')].map((element) => element.textContent),
-      externalLinks: [...document.querySelectorAll('.project-link')].map((a) => a.href),
-      captions: document.querySelectorAll('.detail-figure figcaption').length,
-      projectCountLabel: document.querySelector('.project-count')?.textContent ?? null,
-      logoPresent: Boolean(document.querySelector('.profile-logo')),
-      logoLoaded: Boolean(document.querySelector('.profile-logo')?.naturalWidth),
-      imagesLoaded: [...document.querySelectorAll('.thumb img')].every((img) => img.naturalWidth > 0),
-      detailExpanded: document.querySelector('.project-detail').getBoundingClientRect().height > 200,
-      clippedDescriptions: [...document.querySelectorAll('.project-short')].filter((element) => element.scrollWidth > element.clientWidth).length,
+      directLinks: [...document.querySelectorAll('.project-direct-link')].map((a) => a.href),
+      detailPanels: document.querySelectorAll('.project-detail').length,
     }))
     await page.screenshot({ path: `captura-${device.name}.png`, fullPage: true })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const reducedMotion = await page.locator('.project-detail').first().evaluate((element) => getComputedStyle(element).transitionDuration === '0s')
-    console.log(JSON.stringify({ device: device.name, status: response.status(), ...result, initialState, firstClickStays, oneAtATime, clickCloses, enterOpens, spaceCloses, reducedMotion, errors }, null, 2))
-    const expectedNames = ['Agronautas', 'TUS', 'Pía', 'Medbot', 'Tilo', 'Desarrollo de software y hardware']
-    const expectedLinks = ['https://www.agronauta.com.ar/', 'https://www.tusservicios.shop/', 'https://proyecto-paso.vercel.app/', 'https://www.medbot.com.ar/', 'https://www.tilotech.com.ar/']
-    if (response.status() !== 200 || result.pageWidth > result.viewport || result.projects !== 6 || JSON.stringify(result.projectNames) !== JSON.stringify(expectedNames) || JSON.stringify(result.externalLinks) !== JSON.stringify(expectedLinks) || result.captions !== 0 || result.projectCountLabel !== null || (result.logoPresent && !result.logoLoaded) || !result.imagesLoaded || !result.detailExpanded || result.clippedDescriptions || !initialState || !firstClickStays || !oneAtATime || !clickCloses || !enterOpens || !spaceCloses || !reducedMotion || errors.length) process.exitCode = 1
+
+    console.log(JSON.stringify({
+      device: device.name,
+      status: response.status(),
+      ...result,
+      imagesLoaded: Boolean(imagesLoaded),
+      directHref,
+      directOpened,
+      accordionOpens,
+      accordionCloses,
+      cardClickStays,
+      modalVisible,
+      modalTitle,
+      closeButtonFocused,
+      modalGeometry,
+      escapeCloses,
+      focusReturnsAfterEscape,
+      buttonCloses,
+      focusReturnsAfterButton,
+      reducedMotion,
+      errors,
+    }, null, 2))
+
+    const valid = response.status() === 200
+      && result.pageWidth <= result.viewport
+      && result.projects === 7
+      && JSON.stringify(names) === JSON.stringify(expectedNames)
+      && result.title === 'Agronautas y proyectos del equipo'
+      && JSON.stringify(result.directLinks) === JSON.stringify([jakaruUrl])
+      && directHref === jakaruUrl
+      && directOpened
+      && result.detailPanels === 5
+      && accordionOpens
+      && accordionCloses
+      && cardClickStays
+      && modalVisible
+      && modalTitle === 'Desarrollo de software y hardware a medida'
+      && closeButtonFocused
+      && modalGeometry.width <= result.viewport
+      && modalGeometry.height <= modalGeometry.viewportHeight
+      && escapeCloses
+      && focusReturnsAfterEscape
+      && buttonCloses
+      && focusReturnsAfterButton
+      && reducedMotion
+      && errors.length === 0
+    if (!valid) process.exitCode = 1
     await page.close()
   }
 } finally {

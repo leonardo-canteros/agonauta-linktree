@@ -20,6 +20,14 @@ export const projects = [
     links: [{ label: 'Ver proyecto', url: 'https://www.agronauta.com.ar/' }],
   },
   {
+    id: 'jakaru-pora',
+    name: 'Jakaru Porá',
+    shortDescription: 'Seguimiento de las huertas.',
+    image: '/images/huertas.webp',
+    imageAlt: 'Huerta verde con cultivos y un invernadero',
+    destination: 'https://jakaru-pora-front.vercel.app/#/?section=propuesta',
+  },
+  {
     id: 'tus',
     name: 'TUS',
     shortDescription: 'Personas y profesionales.',
@@ -61,12 +69,16 @@ export const projects = [
   },
   {
     id: 'software-hardware',
-    name: 'Desarrollo de software y hardware',
+    name: 'Desarrollo de software y hardware personalizado',
     shortDescription: 'Robótica a medida.',
     description:
-      'Diseñamos y desarrollamos soluciones de robótica, hardware y software adaptadas a cada proyecto.',
+      'Diseñamos y desarrollamos soluciones según las necesidades de cada proyecto, incluyendo aplicaciones, sistemas, dispositivos y robótica.',
+    modalTitle: 'Desarrollo de software y hardware a medida',
+    modalInvitation:
+      'Estamos abiertos a escuchar ideas, colaborar y desarrollar nuevos proyectos.',
     image: '/images/software.webp',
     imageAlt: 'Robot educativo armado con componentes electrónicos y sensores',
+    interaction: 'modal',
     links: [],
   },
 ]
